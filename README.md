@@ -1,6 +1,6 @@
 if you want to use this project then do the following steps:
 
-1.Run git clone https://github.com/lana-jo/api-crud-simple-with-laravel-v9.git
+1.Run git clone https://github.com/lana-jo/laravel_api_crud_jwt.git
 
 2.Run composer install
 
