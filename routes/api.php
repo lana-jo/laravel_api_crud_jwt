@@ -10,8 +10,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/refresh', [AuthController::class, 'refresh']);
 
+
 // User routes (protected by JWT)
-Route::apiResource('users', UserController::class);
+Route::middleware('auth:api')->apiResource('users', UserController::class);
+// User routes (protected by JWT)
+// Route::apiResource('users', UserController::class);
 
 // Get authenticated user info
 Route::get('/me', function (Request $request) {
