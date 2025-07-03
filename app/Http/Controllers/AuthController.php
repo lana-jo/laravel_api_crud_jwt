@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -27,6 +29,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'email_verified_at' => now(),
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -64,9 +67,11 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'success',
+            'token_type' => 'bearer',
             'message' => 'Login successful',
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
             'data' => [
-                'user' => auth()->user(),
+                'user' => auth()->guard('api')->user(),
                 'authorization' => [
                     'token' => $token,
                     'type' => 'bearer',
